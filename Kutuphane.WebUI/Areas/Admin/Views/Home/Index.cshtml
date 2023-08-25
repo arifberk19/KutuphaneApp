@@ -1,0 +1,9 @@
+﻿@using Kutuphane.WebUI.Helper.SessionHelper;
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "AdminLayout";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome @SessionManager.LoggedUser.AdSoyad</h1>
+</div>

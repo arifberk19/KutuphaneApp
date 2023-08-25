@@ -1,0 +1,18 @@
+﻿@using Kutuphane.Entity.Model;
+@model List<PersonelDto>
+@{
+	ViewData["Title"] = "Privacy Policy";
+	//Layout = 
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page to detail your site's privacy policy.</p>
+
+@if (Model is not null)
+{
+	@foreach (var personel in Model)
+	{
+		<a> @personel.Adi @personel.Soyadi</a>
+		<p> @personel.Telefon</p>
+	}
+}

@@ -47,11 +47,15 @@ namespace Kutuphane.WebUI.Areas.Admin.Controllers
             else
                 return View(sonuc);
         }
-
+        
         // GET: Kitap/Create
         [HttpGet("/Admin/KitapKopya/Create")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
+
         {
+            string url = "https://localhost:7212";
+            var kitapListesi = await RestHelper.GetRequestAsync<List<KitapDto>>(url + "/Kitap/Listele");
+            ViewBag.Kitap = new SelectList(kitapListesi, "ID", "Adi");
             return View();
         }
 
@@ -85,14 +89,21 @@ namespace Kutuphane.WebUI.Areas.Admin.Controllers
             if (sonuc is null)
                 return NotFound();
             else
-                return View(sonuc);
+            {
+                string url = "https://localhost:7212";
+                var kitapListesi = await RestHelper.GetRequestAsync<List<KitapDto>>(url + "/Kitap/Listele");
+                ViewBag.Kitap = new SelectList(kitapListesi, "ID", "Adi");
+                return View();
+            }
+
+            return View(sonuc);
         }
         // POST: KitapKopya/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("KopyaNo,KitapId")] KitapKopyaDto kitapKopya)
+        public async Task<IActionResult> Edit(int id, [Bind("KopyaNo,KitapId,ID,GuncelleyenPersonelId,EkleyenPersonelId,EklenmeTarihi,GuncellenmeTarihi,SilindiMi,AktifMi")] KitapKopyaDto kitapKopya)
         {
             if (id != kitapKopya.ID)
             {

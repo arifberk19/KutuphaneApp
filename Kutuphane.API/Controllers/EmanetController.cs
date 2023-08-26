@@ -21,7 +21,7 @@ namespace Kutuphane.API.Controllers
         [HttpGet("Listele")]
         public async Task<IActionResult> Listele()
         {
-            var sonuc = await EmanetManager.Listele(x => x.AktifMi == true && x.SilindiMi == false);
+            var sonuc = await EmanetManager.Listele(x => x.AktifMi == true && x.SilindiMi == false, "KitapKopya","Uye","Personel");
             if (sonuc == null)
                 return NotFound();
             return Ok(sonuc);
@@ -32,7 +32,7 @@ namespace Kutuphane.API.Controllers
         [HttpGet("Getir")]
         public async Task<IActionResult> Getir(int id)
         {
-            var sonuc = await EmanetManager.Getir(x => x.ID == id);
+            var sonuc = await EmanetManager.Getir(x => x.ID == id, "KitapKopya", "Uye", "Personel");
             if (sonuc == null)
             {
                 return NotFound();
@@ -46,7 +46,9 @@ namespace Kutuphane.API.Controllers
         {
             if (!(DateTime.Now.Date < emanet.EmanetTarih || emanet.SonTeslimTarih > DateTime.Now))
                 return BadRequest();
-            await EmanetManager.Ekle(emanet);
+            emanet = await EmanetManager.Ekle(emanet);
+            if(emanet == null)
+                return BadRequest("Kitap kopya emanete uygun durumda değil");
             return Ok(emanet);
         }
 

@@ -8,7 +8,6 @@ using Kutuphane.Core.DTO;
 using System.Security.Cryptography;
 using System.Text;
 using Kutuphane.WebUI.Models;
-using Kutuphane.WebUI.Areas.Admin.Controllers;
 
 namespace Kutuphane.WebUI.Areas.User.Controllers
 {
@@ -99,18 +98,17 @@ namespace Kutuphane.WebUI.Areas.User.Controllers
             return View(res);
         }
 
-        [HttpPost("/User/Account/Rezerve")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Rezerve(int kitapKopyaId)
+        [HttpGet("/User/Account/Rezerve")]
+        public async Task<IActionResult> Rezerve(int id)
         {
-            var url = $"https://localhost:7212/KitapKopya/Rezerve/?id={kitapKopyaId}";
-            var res = await RestHelper.PostRequestAsync<int?, bool>(url, SessionManager.LoggedUser?.ID);
+            var url = $"https://localhost:7212/KitapKopya/Rezerve/?id={id}";
+            var res = await RestHelper.PostRequestAsync<int?, bool>(url, SessionManager.LoggedUser?.ID, Method.Put);
             if (!res)
             {
                 ViewBag.RezerveError = "Rezerve edilemedi";
                 ViewData["RezerveError"] = "Rezerve edilemedi";
             }
-            return View("KitapList");
+            return Redirect("KitapList");
 		}
     }
 }

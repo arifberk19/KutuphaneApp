@@ -94,7 +94,7 @@ namespace Kutuphane.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Adi,Soyadi")] YazarDto yazar)
+        public async Task<IActionResult> Edit(int id, [Bind("Adi,Soyadi,ID,GuncelleyenPersonelId,EkleyenPersonelId,EklenmeTarihi,GuncellenmeTarihi,SilindiMi,AktifMi")] YazarDto yazar)
         {
             if (id != yazar.ID)
             {

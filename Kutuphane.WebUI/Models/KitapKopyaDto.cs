@@ -11,6 +11,8 @@ namespace Kutuphane.WebUI.Models
         public int? EnSonRezerveEdenUyeId { get; set; }
         public DateTime? RezerveBitisTarihi { get; set; }
 
+        public string KitapKopyaNo => Kitap?.Adi + "(" + KopyaNo + ")";
+
         public Uye? EnSonRezerveEdenUye { get; set; }
         public Kitap? Kitap { get; set; }
 

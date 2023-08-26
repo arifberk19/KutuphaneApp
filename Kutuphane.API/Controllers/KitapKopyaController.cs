@@ -21,7 +21,7 @@ namespace Kutuphane.API.Controllers
         [HttpGet("Listele")]
         public async Task<IActionResult> Listele()
         {
-            var sonuc = await KitapKopyaManager.Listele(x => x.AktifMi == true && x.SilindiMi == false);
+            var sonuc = await KitapKopyaManager.Listele(x => x.AktifMi == true && x.SilindiMi == false,"Kitap", "EnSonRezerveEdenUye");
             if (sonuc == null)
                 return NotFound();
             return Ok(sonuc);
@@ -31,7 +31,7 @@ namespace Kutuphane.API.Controllers
         [HttpGet("Getir")]
         public async Task<IActionResult> Getir(int id)
         {
-            var sonuc = await KitapKopyaManager.Getir(x => x.ID == id);
+            var sonuc = await KitapKopyaManager.Getir(x => x.ID == id, "Kitap", "EnSonRezerveEdenUye");
             if (sonuc == null)
             {
                 return NotFound();
@@ -86,7 +86,7 @@ namespace Kutuphane.API.Controllers
             else
             {
                 await KitapKopyaManager.Rezerve(kiko,uyeId.Value);
-                return Ok(kiko);
+                return Ok(true);
             }
         }
     }

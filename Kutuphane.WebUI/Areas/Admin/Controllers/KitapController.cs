@@ -12,7 +12,7 @@ using RestSharp;
 
 namespace Kutuphane.WebUI.Areas.Admin.Controllers
 {
-	[Area("Admin")]
+    [Area("Admin")]
 	public class kitapController : Controller
 	{
 		private string baseUrl = "https://localhost:7212/kitap";
@@ -49,19 +49,24 @@ namespace Kutuphane.WebUI.Areas.Admin.Controllers
 
 		// GET: Kitap/Create
 		[HttpGet("/Admin/Kitap/Create")]
-		public async Task<IActionResult> Create()
-		{
-			string url = "https://localhost:7212";
-			ViewBag.Kategori = await RestHelper.GetRequestAsync<List<KitapDto>>(url + "/Kategori/Listele");
-			ViewBag.Yazar = await RestHelper.GetRequestAsync<List<KitapDto>>(url + "/Yazar/Listele");
-			ViewBag.Yayinevi = await RestHelper.GetRequestAsync<List<KitapDto>>(url + "/Yayinevi/Listele");
-			return View();
-		}
+        public async Task<IActionResult> Create()
+        {
+            string url = "https://localhost:7212";
+            var kategoriListesi = await RestHelper.GetRequestAsync<List<KategoriDto>>(url + "/Kategori/Listele");
+            ViewBag.Kategori = new SelectList(kategoriListesi, "ID", "Adi");
 
-		// POST: Kitap/Create
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
+            var yazarListesi = await RestHelper.GetRequestAsync<List<YazarDto>>(url + "/Yazar/Listele");
+            ViewBag.Yazar = new SelectList(yazarListesi, "ID", "Adi");
+
+           var yayineviListesi = await RestHelper.GetRequestAsync<List<YayineviDto>>(url + "/Yayinevi/Listele");
+            ViewBag.Yayinevi = new SelectList(yayineviListesi, "ID", "Adi");
+            return View();
+        }
+
+        // POST: Kitap/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create([Bind("Isbn,Adi,YayinTarih,SayfaSayisi,KategoriId,YayineviId,YazarId")] KitapDto kitap)
 		{
@@ -88,7 +93,18 @@ namespace Kutuphane.WebUI.Areas.Admin.Controllers
 			if (sonuc is null)
 				return NotFound();
 			else
-				return View(sonuc);
+            {
+                string url = "https://localhost:7212";
+                var kategoriListesi = await RestHelper.GetRequestAsync<List<KategoriDto>>(url + "/Kategori/Listele");
+                ViewBag.Kategori = new SelectList(kategoriListesi, "ID", "Adi");
+
+                var yazarListesi = await RestHelper.GetRequestAsync<List<YazarDto>>(url + "/Yazar/Listele");
+                ViewBag.Yazar = new SelectList(yazarListesi, "ID", "Adi");
+
+                var yayineviListesi = await RestHelper.GetRequestAsync<List<YayineviDto>>(url + "/Yayinevi/Listele");
+                ViewBag.Yayinevi = new SelectList(yayineviListesi, "ID", "Adi");
+                return View(sonuc);
+			}
 		}
 
 		// POST: Kitap/Edit/5
@@ -96,7 +112,7 @@ namespace Kutuphane.WebUI.Areas.Admin.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Isbn,Adi,YayinTarih,SayfaSayisi,KategoriId,YayineviId,YazarId")] KitapDto kitap)
+		public async Task<IActionResult> Edit(int id, [Bind("Isbn,Adi,YayinTarih,SayfaSayisi,KategoriId,YayineviId,YazarId,ID,GuncelleyenPersonelId,EkleyenPersonelId,EklenmeTarihi,GuncellenmeTarihi,SilindiMi,AktifMi")] KitapDto kitap)
 		{
 			if (id != kitap.ID)
 			{

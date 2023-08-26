@@ -41,7 +41,7 @@ namespace Kutuphane.DAL.Concrete
             {
                 foreach (var param in includeParams)
                 {
-                    query.Include(param);
+                  query = query.Include(param);
                 }
             }
             return await query.FirstOrDefaultAsync();
@@ -71,7 +71,7 @@ namespace Kutuphane.DAL.Concrete
             {
                 foreach (var param in includeParams)
                 {
-                    query.Include(param);
+                    query = query.Include(param);
                 }
             }
             return await Task.Run(()=> query);

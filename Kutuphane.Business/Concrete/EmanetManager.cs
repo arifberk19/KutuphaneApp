@@ -18,6 +18,17 @@ namespace Kutuphane.Business.Concrete
 
         public async Task<Emanet> Ekle(Emanet entity)
         {
+            var bostaRezerveKopya = await UnitOfWork.KitapKopyaRepository.Getir(x=>x.ID ==  entity.KitapKopyaId && x.SilindiMi == false && x.AktifMi == true && 
+            !(x.RezerveBitisTarihi>DateTime.Now));
+            if(bostaRezerveKopya != null)
+            {
+                return null;
+            }
+            var emanetteKopya = await UnitOfWork.EmanetRepository.Getir(x => x.KitapKopyaId == entity.KitapKopyaId && x.TeslimTarih == null);
+            if(emanetteKopya != null)
+            {
+                return null;
+            }
             await UnitOfWork.EmanetRepository.Ekle(entity);
             await UnitOfWork.SaveChangesAsync();
             return entity;

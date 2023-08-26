@@ -23,11 +23,18 @@ namespace Kutuphane.WebUI.WebUI.Middleware
             {
                 if (SessionManager.LoggedUser==null && !httpContext.Request.Path.Value.Contains("Login"))
                 {
-                    //httpContext.Response.Redirect("/Admin/Account/AdminLogin");
+                    httpContext.Response.Redirect("/Admin/Account/AdminLogin");
                     //httpContext.Response.WriteAsync("Yetksiz Giriş");
                 }
             }
-
+            if (httpContext.Request.Path.Value.Contains("/User/"))
+            {
+                if (SessionManager.LoggedUser == null && !httpContext.Request.Path.Value.Contains("Login") && !httpContext.Request.Path.Value.Contains("Register"))
+                {
+                    httpContext.Response.Redirect("/User/Account/UserLogin");
+                    //httpContext.Response.WriteAsync("Yetksiz Giriş");
+                }
+            }
             return _next(httpContext);
         }
     }

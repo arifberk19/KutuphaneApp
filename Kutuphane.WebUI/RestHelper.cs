@@ -2,7 +2,7 @@
 using System.Text.Json;
 using RestSharp;
 
-namespace Kutuphane.WebUI.Areas.Admin.Controllers
+namespace Kutuphane.WebUI
 {
     public static class RestHelper
     {

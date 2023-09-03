@@ -43,7 +43,6 @@ namespace Kutuphane.DAL.Concrete
             {
                 if(entity.State == EntityState.Added)
                 {
-                    //TODO: Ekleyen personel ID eklenecek
                     entity.Entity.EkleyenPersonelId = 1;
                     entity.Entity.EklenmeTarihi = DateTime.Now;
                     if (entity.Entity.AktifMi == null)
@@ -52,8 +51,6 @@ namespace Kutuphane.DAL.Concrete
                 }
                 if(entity.State == EntityState.Modified)
                 {
-                    //TODO: Ekleyen personel ID eklenecek
-                    //entity.Entity.GuncelleyenPersonelId = 1;
                     entity.Entity.GuncellenmeTarihi = DateTime.Now;
 
                 }

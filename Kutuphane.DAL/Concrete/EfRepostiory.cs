@@ -13,7 +13,6 @@ namespace Kutuphane.DAL.Concrete
 {
     public class EfRepostiory<T> : IRepository<T> where T : AuditableEntity
     {
-        //TODO: Bu kısımlar tamamlanacak yoksa hata verir
         private readonly DbContext Context;
         private readonly DbSet<T> DbSet;
         public EfRepostiory(DbContext context)
